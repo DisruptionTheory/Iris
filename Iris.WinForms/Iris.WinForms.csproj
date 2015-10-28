@@ -46,12 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="IrisUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="IrisUI.Designer.cs">
+      <DependentUpon>IrisUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mouse\MousePositionReceiver.cs" />
+    <Compile Include="Mouse\MousePositionSender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -75,6 +77,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Iris.Core\Iris.Core.csproj">
+      <Project>{f3ded005-50b5-43cf-abea-d57985df421f}</Project>
+      <Name>Iris.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj">
+      <Project>{CA44EC67-007C-450D-89B1-DD145C5B4895}</Project>
+      <Name>Iris.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,6 @@
 ﻿namespace Iris.WinForms
 {
-    partial class Form1
+    partial class IrisUI
     {
         /// <summary>
         /// Required designer variable.
