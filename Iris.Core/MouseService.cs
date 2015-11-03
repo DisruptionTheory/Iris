@@ -1,15 +1,15 @@
-﻿using Iris.Infrastructure.Contracts.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Iris.Infrastructure.Contracts;
+using Iris.Infrastructure.Contracts.Services;
 using Iris.Infrastructure.Models;
 
 namespace Iris.Core
 {
-    public class MouseService : IMouseService
+    internal class MouseService : IMouseService
     {
+        public event MousePositionUpdateEventHandler MousePositionChanged;
+
         public Task<bool> SetMousePosition(MousePosition position)
         {
             throw new NotImplementedException();

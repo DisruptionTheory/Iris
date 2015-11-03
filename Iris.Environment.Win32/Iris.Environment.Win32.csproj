@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CA44EC67-007C-450D-89B1-DD145C5B4895}</ProjectGuid>
+    <ProjectGuid>{4347D73D-86EA-4DF5-A5B0-10C86A532141}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iris.Infrastructure</RootNamespace>
-    <AssemblyName>Iris.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Iris.Environment.Win32</RootNamespace>
+    <AssemblyName>Iris.Environment.Win32</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,14 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\Delegates.cs" />
-    <Compile Include="Contracts\Services\INetworkManager.cs" />
-    <Compile Include="Contracts\Services\IKeyboardService.cs" />
-    <Compile Include="Contracts\Services\IMouseService.cs" />
-    <Compile Include="Models\MousePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj">
+      <Project>{ca44ec67-007c-450d-89b1-dd145c5b4895}</Project>
+      <Name>Iris.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

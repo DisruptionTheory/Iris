@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Iris.Core</RootNamespace>
     <AssemblyName>Iris.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,9 +47,17 @@
     <Compile Include="TinyIoC.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Iris.Environment.Win32\Iris.Environment.Win32.csproj">
+      <Project>{4347d73d-86ea-4df5-a5b0-10c86a532141}</Project>
+      <Name>Iris.Environment.Win32</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj">
       <Project>{ca44ec67-007c-450d-89b1-dd145c5b4895}</Project>
       <Name>Iris.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iris.Network\Iris.Network.csproj">
+      <Project>{7fe7057d-52b6-47a0-b39b-6e77eb11df11}</Project>
+      <Name>Iris.Network</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

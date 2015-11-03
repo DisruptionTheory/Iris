@@ -1,25 +1,33 @@
 ﻿using Iris.Infrastructure.Contracts.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Iris.Network;
+using TinyIoC;
 
 namespace Iris.Core
 {
     public static class IrisCore
     {
-        private readonly static TinyIoC.TinyIoCContainer Container = new TinyIoC.TinyIoCContainer();
+        private readonly static TinyIoCContainer Container = new TinyIoCContainer();
 
         static IrisCore()
         {
             RegisterDependencies();
+
+            InitializeNetworking();
         }
 
         private static void RegisterDependencies()
         {
-            Container.AutoRegister();
+            Container.Register<IMouseService, MouseService>().AsSingleton();
+
+            Container.Register<INetworkManager, IrisNetworkManager>().AsSingleton();
         }
+
+        private static void InitializeNetworking()
+        {
+            NetworkManager.Initialize();
+        }
+
+        private static INetworkManager NetworkManager => Container.Resolve<INetworkManager>();
 
         public static IMouseService MouseService => Container.Resolve<IMouseService>();
     }
