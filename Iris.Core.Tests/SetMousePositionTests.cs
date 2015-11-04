@@ -1,5 +1,4 @@
-﻿using Iris.Core;
-using Iris.Infrastructure.Models;
+﻿using Iris.Infrastructure.Models;
 using NUnit.Framework;
 
 namespace Iris.Core.Tests

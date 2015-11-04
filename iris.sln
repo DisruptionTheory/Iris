@@ -19,6 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{49038564-5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iris.Core.Tests", "Iris.Core.Tests\Iris.Core.Tests.csproj", "{C6EC965E-4056-4606-960A-6F8C9EC13BC3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{CA4A3925-3795-4667-BADE-90093649CEB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkTestUI", "NetworkTestUI\NetworkTestUI.csproj", "{501A6E7B-E347-4D9A-A978-B79348B64F97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iris.WebServer", "Iris.WebServer\Iris.WebServer.csproj", "{18966F05-CEAC-438B-A65B-7CBEBAF20FFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,11 +55,22 @@ Global
 		{C6EC965E-4056-4606-960A-6F8C9EC13BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6EC965E-4056-4606-960A-6F8C9EC13BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6EC965E-4056-4606-960A-6F8C9EC13BC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{501A6E7B-E347-4D9A-A978-B79348B64F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{501A6E7B-E347-4D9A-A978-B79348B64F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{501A6E7B-E347-4D9A-A978-B79348B64F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{501A6E7B-E347-4D9A-A978-B79348B64F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18966F05-CEAC-438B-A65B-7CBEBAF20FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18966F05-CEAC-438B-A65B-7CBEBAF20FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18966F05-CEAC-438B-A65B-7CBEBAF20FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18966F05-CEAC-438B-A65B-7CBEBAF20FFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{E057D4FC-97D0-459F-AE90-48AD87297D81} = {CA4A3925-3795-4667-BADE-90093649CEB1}
 		{C6EC965E-4056-4606-960A-6F8C9EC13BC3} = {49038564-54D7-4F70-B9F8-344E9E5E9040}
+		{501A6E7B-E347-4D9A-A978-B79348B64F97} = {49038564-54D7-4F70-B9F8-344E9E5E9040}
+		{18966F05-CEAC-438B-A65B-7CBEBAF20FFF} = {CA4A3925-3795-4667-BADE-90093649CEB1}
 	EndGlobalSection
 EndGlobal

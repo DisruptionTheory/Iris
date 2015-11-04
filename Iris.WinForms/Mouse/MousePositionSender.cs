@@ -1,6 +1,4 @@
-﻿using Iris.Core;
-using Iris.Infrastructure.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -44,21 +42,6 @@ namespace Iris.WinForms.Mouse
                     GetModuleHandle(curModule.ModuleName), 0);
             }
         }
-
-
-        public void test()
-        {
-            MousePosition postion = new MousePosition();
-
-            postion.X = 10;
-
-            postion.Y = 10;
-
-            IrisCore.MouseService.SetMousePosition(postion);
-        }
-
-
-
 
         private enum MouseMessages
         {
