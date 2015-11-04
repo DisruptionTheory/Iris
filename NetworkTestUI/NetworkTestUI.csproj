@@ -79,6 +79,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Iris.Core\Iris.Core.csproj">
+      <Project>{f3ded005-50b5-43cf-abea-d57985df421f}</Project>
+      <Name>Iris.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj">
+      <Project>{CA44EC67-007C-450D-89B1-DD145C5B4895}</Project>
+      <Name>Iris.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
