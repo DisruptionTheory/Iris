@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iris.Network", "Iris.Networ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iris.Environment.Win32", "Iris.Environment.Win32\Iris.Environment.Win32.csproj", "{4347D73D-86EA-4DF5-A5B0-10C86A532141}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4EFEC80F-A550-459D-8990-D0DB11C683F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{49038564-54D7-4F70-B9F8-344E9E5E9040}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iris.Core.Tests", "Iris.Core.Tests\Iris.Core.Tests.csproj", "{C6EC965E-4056-4606-960A-6F8C9EC13BC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +45,15 @@ Global
 		{4347D73D-86EA-4DF5-A5B0-10C86A532141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4347D73D-86EA-4DF5-A5B0-10C86A532141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4347D73D-86EA-4DF5-A5B0-10C86A532141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6EC965E-4056-4606-960A-6F8C9EC13BC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6EC965E-4056-4606-960A-6F8C9EC13BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6EC965E-4056-4606-960A-6F8C9EC13BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6EC965E-4056-4606-960A-6F8C9EC13BC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C6EC965E-4056-4606-960A-6F8C9EC13BC3} = {49038564-54D7-4F70-B9F8-344E9E5E9040}
 	EndGlobalSection
 EndGlobal
