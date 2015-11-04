@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Iris.Infrastructure.Contracts;
 using Iris.Infrastructure.Contracts.Services;
 using Iris.Infrastructure.Models;
@@ -16,7 +17,7 @@ namespace Iris.Network
             Endpoint.Initialize();
         }
 
-        public void SendMousePositionUpdate(MousePosition position)
+        public async Task<bool> SendMousePositionUpdate(MousePosition position)
         {
             byte[] data = new byte[20];
 
@@ -26,7 +27,7 @@ namespace Iris.Network
 
             Array.Copy(BitConverter.GetBytes(position.Y), 12, data, 0, 8);
 
-            Endpoint.Send(data);
+            return await Endpoint.Send(data);
         }
 
         public event MousePositionUpdateEventHandler MousePositionUpdate;

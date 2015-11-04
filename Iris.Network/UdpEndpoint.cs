@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Iris.Network
 {
@@ -25,9 +26,11 @@ namespace Iris.Network
             _client.BeginReceive(ReceiveAsync, null);
         }
 
-        public void Send(byte[] data)
+        public async Task<bool> Send(byte[] data)
         {
-            _client.SendAsync(data, data.Length, _broadcastEndPoint);
+             await _client.SendAsync(data, data.Length, _broadcastEndPoint);
+
+            return true;
         }
 
         private void ReceiveAsync(IAsyncResult asyncResult)

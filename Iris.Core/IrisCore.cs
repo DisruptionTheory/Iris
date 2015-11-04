@@ -27,7 +27,7 @@ namespace Iris.Core
             NetworkManager.Initialize();
         }
 
-        private static INetworkManager NetworkManager => Container.Resolve<INetworkManager>();
+        internal static INetworkManager NetworkManager => Container.Resolve<INetworkManager>();
 
         public static IMouseService MouseService => Container.Resolve<IMouseService>();
     }

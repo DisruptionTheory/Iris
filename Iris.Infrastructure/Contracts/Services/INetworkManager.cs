@@ -1,4 +1,5 @@
-﻿using Iris.Infrastructure.Models;
+﻿using System.Threading.Tasks;
+using Iris.Infrastructure.Models;
 
 namespace Iris.Infrastructure.Contracts.Services
 {
@@ -6,7 +7,7 @@ namespace Iris.Infrastructure.Contracts.Services
     {
         void Initialize();
 
-        void SendMousePositionUpdate(MousePosition position);
+        Task<bool> SendMousePositionUpdate(MousePosition position);
 
         event MousePositionUpdateEventHandler MousePositionUpdate;
     }

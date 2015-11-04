@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iris.Infrastructure.Contracts;
 using Iris.Infrastructure.Contracts.Services;
 using Iris.Infrastructure.Models;
@@ -10,9 +9,19 @@ namespace Iris.Core
     {
         public event MousePositionUpdateEventHandler MousePositionChanged;
 
-        public Task<bool> SetMousePosition(MousePosition position)
+        public MouseService()
         {
-            throw new NotImplementedException();
+            IrisCore.NetworkManager.MousePositionUpdate += OnMousePositionUpdate;
+        }
+
+        public async Task<bool> SetMousePosition(MousePosition position)
+        {
+            return await IrisCore.NetworkManager.SendMousePositionUpdate(position);
+        }
+
+        private void OnMousePositionUpdate(MousePosition position)
+        {
+            MousePositionChanged?.Invoke(position);
         }
     }
 }
