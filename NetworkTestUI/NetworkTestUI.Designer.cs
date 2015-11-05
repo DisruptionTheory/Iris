@@ -30,8 +30,9 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblLocalEvents = new System.Windows.Forms.Label();
+            this.lblLocalMouseMove = new System.Windows.Forms.Label();
+            this.lblLocalMouseClick = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -47,30 +48,40 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.lblLocalMouseClick);
+            this.panel1.Controls.Add(this.lblLocalEvents);
+            this.panel1.Controls.Add(this.lblLocalMouseMove);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 260);
             this.panel1.TabIndex = 0;
             // 
-            // label1
+            // lblLocalEvents
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Local events";
+            this.lblLocalEvents.AutoSize = true;
+            this.lblLocalEvents.Location = new System.Drawing.Point(3, 7);
+            this.lblLocalEvents.Name = "lblLocalEvents";
+            this.lblLocalEvents.Size = new System.Drawing.Size(68, 13);
+            this.lblLocalEvents.TabIndex = 2;
+            this.lblLocalEvents.Text = "Local events";
             // 
-            // label2
+            // lblLocalMouseMove
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "label2";
+            this.lblLocalMouseMove.AutoSize = true;
+            this.lblLocalMouseMove.Location = new System.Drawing.Point(3, 33);
+            this.lblLocalMouseMove.Name = "lblLocalMouseMove";
+            this.lblLocalMouseMove.Size = new System.Drawing.Size(92, 13);
+            this.lblLocalMouseMove.TabIndex = 2;
+            this.lblLocalMouseMove.Text = "local mouse move";
+            // 
+            // lblLocalMouseClick
+            // 
+            this.lblLocalMouseClick.AutoSize = true;
+            this.lblLocalMouseClick.Location = new System.Drawing.Point(3, 58);
+            this.lblLocalMouseClick.Name = "lblLocalMouseClick";
+            this.lblLocalMouseClick.Size = new System.Drawing.Size(88, 13);
+            this.lblLocalMouseClick.TabIndex = 3;
+            this.lblLocalMouseClick.Text = "local mouse click";
             // 
             // NetworkTestUI
             // 
@@ -91,8 +102,9 @@
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblLocalEvents;
+        private System.Windows.Forms.Label lblLocalMouseMove;
+        private System.Windows.Forms.Label lblLocalMouseClick;
     }
 }
 

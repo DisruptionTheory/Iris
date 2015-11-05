@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Iris.Environment.Win32;
@@ -8,6 +9,8 @@ namespace NetworkTestUI
 {
     public partial class NetworkTestUI : Form
     {
+        private Dictionary<string, Label> mousePositionLabels = new Dictionary<string, Label>();
+
         public NetworkTestUI()
         {
             InitializeComponent();
@@ -33,30 +36,38 @@ namespace NetworkTestUI
 
             clientAddress.Parent = clientPanel;
 
-            Label clientLabel = new Label();
+            Label mousePositionLabel = new Label
+            {
+                Text = "Hi!",
+                Parent = clientPanel,
+                Location = new Point(4, 20)
+            };
 
-            clientLabel.Text = "Hi!";
-
-            clientLabel.Parent = clientPanel;
-
-            clientLabel.Location = new Point(4, 20);
+            mousePositionLabels[address] = mousePositionLabel;
         }
 
         private void SetUpMouseHooks()
         {
             MouseHook.MousePositionChanged += MouseHookOnMousePositionChanged;
 
+            MouseHook.MouseButtonClicked += MouseHookOnMouseButtonClicked;
+
             Iris.Core.IrisCore.MouseService.MousePositionChanged += MouseService_MousePositionChanged;
+        }
+
+        private void MouseHookOnMouseButtonClicked(short key)
+        {
+            lblLocalMouseClick.Text = key + " button clicked";
         }
 
         private void MouseHookOnMousePositionChanged(long x, long y)
         {
-            label1.Text = "Local mouse: " + x + ", " + y;
+            lblLocalMouseMove.Text = "Local mouse: " + x + ", " + y;
         }
 
         private void MouseService_MousePositionChanged(MousePosition position)
         {
-            label2.Text = "Mouse pos: " + position.X + ", " + position.Y;
+            // lblLocalMouseMove.Text = "Mouse pos: " + position.X + ", " + position.Y;
         }
     }
 }

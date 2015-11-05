@@ -7,8 +7,10 @@ namespace Iris.Environment.Win32
     public class MouseHook
     {
         public delegate void MousePositionUpdateEventHandler(long x, long y);
+        public delegate void MouseClickEventHandler(short key);
 
         public static event MousePositionUpdateEventHandler MousePositionChanged;
+        public static event MouseClickEventHandler MouseButtonClicked;
 
         private static LowLevelMouseProc _proc = HookCallback;
         private static IntPtr _hookID;
@@ -28,13 +30,16 @@ namespace Iris.Environment.Win32
         private static IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 &&
-                MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam)
+            if (nCode >= 0 )
+                // && MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam)
             {
                 MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
-                Console.WriteLine("Mouse move: " + hookStruct.pt.x + ", " + hookStruct.pt.y);
+                // Console.WriteLine("Mouse move: " + hookStruct.pt.x + ", " + hookStruct.pt.y);
 
                 MousePositionChanged?.Invoke(hookStruct.pt.x, hookStruct.pt.y);
+
+                if (MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam) MouseButtonClicked?.Invoke(0);
+                if (MouseMessages.WM_RBUTTONDOWN == (MouseMessages)wParam) MouseButtonClicked?.Invoke(1);
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
