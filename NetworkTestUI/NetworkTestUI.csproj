@@ -86,6 +86,10 @@
       <Project>{f3ded005-50b5-43cf-abea-d57985df421f}</Project>
       <Name>Iris.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Iris.Environment.Win32\Iris.Environment.Win32.csproj">
+      <Project>{4347D73D-86EA-4DF5-A5B0-10C86A532141}</Project>
+      <Name>Iris.Environment.Win32</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj">
       <Project>{CA44EC67-007C-450D-89B1-DD145C5B4895}</Project>
       <Name>Iris.Infrastructure</Name>

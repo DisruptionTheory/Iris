@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using Iris.Environment.Win32;
 using Iris.Infrastructure.Models;
 
 namespace NetworkTestUI
@@ -12,7 +14,7 @@ namespace NetworkTestUI
 
             AddClient("Test");
 
-            SetUpMouseHook();
+            SetUpMouseHooks();
         }
 
         private void AddClient(string address)
@@ -40,9 +42,16 @@ namespace NetworkTestUI
             clientLabel.Location = new Point(4, 20);
         }
 
-        private void SetUpMouseHook()
+        private void SetUpMouseHooks()
         {
+            MouseHook.MousePositionChanged += MouseHookOnMousePositionChanged;
+
             Iris.Core.IrisCore.MouseService.MousePositionChanged += MouseService_MousePositionChanged;
+        }
+
+        private void MouseHookOnMousePositionChanged(long x, long y)
+        {
+            label1.Text = "Local mouse: " + x + ", " + y;
         }
 
         private void MouseService_MousePositionChanged(MousePosition position)
