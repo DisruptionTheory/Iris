@@ -28,7 +28,7 @@ namespace Iris.Network
 
         public async Task<bool> Send(byte[] data)
         {
-             await _client.SendAsync(data, data.Length, _broadcastEndPoint);
+            //await _client.SendAsync(data, data.Length, _broadcastEndPoint);
 
             return true;
         }

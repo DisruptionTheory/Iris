@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Iris.Core;
 using Iris.Environment.Win32;
 using Iris.Infrastructure.Models;
 
@@ -63,6 +64,14 @@ namespace NetworkTestUI
         private void MouseHookOnMousePositionChanged(long x, long y)
         {
             lblLocalMouseMove.Text = "Local mouse: " + x + ", " + y;
+
+            MousePosition mp = new MousePosition();
+
+            mp.X = x;
+
+            mp.Y = y;
+
+            var t = IrisCore.MouseService.SetMousePosition(mp);
         }
 
         private void MouseService_MousePositionChanged(MousePosition position)

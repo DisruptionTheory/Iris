@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using Iris.Infrastructure.Contracts;
 using Iris.Infrastructure.Contracts.Services;
@@ -9,6 +10,13 @@ namespace Iris.Network
     public class IrisNetworkManager : INetworkManager
     {
         private readonly UdpEndpoint Endpoint = new UdpEndpoint();
+
+        private readonly IConfigurationService ConfigurationService;
+
+        public IrisNetworkManager(IConfigurationService configurationService)
+        {
+            ConfigurationService = configurationService;
+        }
 
         public void Initialize()
         {
@@ -23,9 +31,9 @@ namespace Iris.Network
 
             Array.Copy(BitConverter.GetBytes((int)MessageType.MousePositionUpdate), 0, data, 0, 4);
 
-            Array.Copy(BitConverter.GetBytes(position.X), 4, data, 0, 8);
+            Array.Copy(BitConverter.GetBytes(position.X), 0, data, 4, 8);
 
-            Array.Copy(BitConverter.GetBytes(position.Y), 12, data, 0, 8);
+            Array.Copy(BitConverter.GetBytes(position.Y), 0, data, 12, 8);
 
             return await Endpoint.Send(data);
         }

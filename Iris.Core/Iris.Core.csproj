@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IrisConfigurationService.cs" />
     <Compile Include="IrisCore.cs" />
     <Compile Include="MouseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

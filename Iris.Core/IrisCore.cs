@@ -19,6 +19,8 @@ namespace Iris.Core
         {
             Container.Register<IMouseService, MouseService>().AsSingleton();
 
+            Container.Register<IConfigurationService, IrisConfigurationService>().AsSingleton();
+
             Container.Register<INetworkManager, IrisNetworkManager>().AsSingleton();
         }
 

@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\Delegates.cs" />
+    <Compile Include="Contracts\Services\IConfigurationService.cs" />
     <Compile Include="Contracts\Services\INetworkManager.cs" />
     <Compile Include="Contracts\Services\IKeyboardService.cs" />
     <Compile Include="Contracts\Services\IMouseService.cs" />
