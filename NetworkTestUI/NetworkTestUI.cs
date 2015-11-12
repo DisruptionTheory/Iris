@@ -53,7 +53,7 @@ namespace NetworkTestUI
 
         private void SetUpMouseHooks()
         {
-            MouseHook.MousePositionChanged += MouseHookOnMousePositionChanged;
+            //MouseHook.MousePositionChanged += MouseHookOnMousePositionChanged;
 
             MouseHook.MouseButtonClicked += MouseHookOnMouseButtonClicked;
 
@@ -87,6 +87,11 @@ namespace NetworkTestUI
             {
                 mousePositionLabels[mousePositionLabels.Keys.First()].Text = "Mouse pos: " + position.X + ", " + position.Y;
             }));
+        }
+
+        private void btnSendStuff_Click(object sender, EventArgs e)
+        {
+            MouseHookOnMousePositionChanged(5, 10);
         }
     }
 }

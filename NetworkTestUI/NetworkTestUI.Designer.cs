@@ -30,9 +30,10 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblLocalMouseClick = new System.Windows.Forms.Label();
             this.lblLocalEvents = new System.Windows.Forms.Label();
             this.lblLocalMouseMove = new System.Windows.Forms.Label();
-            this.lblLocalMouseClick = new System.Windows.Forms.Label();
+            this.btnSendStuff = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -49,12 +50,22 @@
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lblLocalMouseClick);
+            this.panel1.Controls.Add(this.btnSendStuff);
             this.panel1.Controls.Add(this.lblLocalEvents);
             this.panel1.Controls.Add(this.lblLocalMouseMove);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 260);
             this.panel1.TabIndex = 0;
+            // 
+            // lblLocalMouseClick
+            // 
+            this.lblLocalMouseClick.AutoSize = true;
+            this.lblLocalMouseClick.Location = new System.Drawing.Point(3, 58);
+            this.lblLocalMouseClick.Name = "lblLocalMouseClick";
+            this.lblLocalMouseClick.Size = new System.Drawing.Size(88, 13);
+            this.lblLocalMouseClick.TabIndex = 3;
+            this.lblLocalMouseClick.Text = "local mouse click";
             // 
             // lblLocalEvents
             // 
@@ -74,14 +85,15 @@
             this.lblLocalMouseMove.TabIndex = 2;
             this.lblLocalMouseMove.Text = "local mouse move";
             // 
-            // lblLocalMouseClick
+            // btnSendStuff
             // 
-            this.lblLocalMouseClick.AutoSize = true;
-            this.lblLocalMouseClick.Location = new System.Drawing.Point(3, 58);
-            this.lblLocalMouseClick.Name = "lblLocalMouseClick";
-            this.lblLocalMouseClick.Size = new System.Drawing.Size(88, 13);
-            this.lblLocalMouseClick.TabIndex = 3;
-            this.lblLocalMouseClick.Text = "local mouse click";
+            this.btnSendStuff.Location = new System.Drawing.Point(53, 223);
+            this.btnSendStuff.Name = "btnSendStuff";
+            this.btnSendStuff.Size = new System.Drawing.Size(99, 23);
+            this.btnSendStuff.TabIndex = 1;
+            this.btnSendStuff.Text = "Send a packet";
+            this.btnSendStuff.UseVisualStyleBackColor = true;
+            this.btnSendStuff.Click += new System.EventHandler(this.btnSendStuff_Click);
             // 
             // NetworkTestUI
             // 
@@ -105,6 +117,7 @@
         private System.Windows.Forms.Label lblLocalEvents;
         private System.Windows.Forms.Label lblLocalMouseMove;
         private System.Windows.Forms.Label lblLocalMouseClick;
+        private System.Windows.Forms.Button btnSendStuff;
     }
 }
 

@@ -14,7 +14,7 @@ namespace Iris.Network
 
         private IPEndPoint _broadcastEndPoint = new IPEndPoint(IPAddress.Broadcast, 9867);
 
-        private IPEndPoint _anyEndPoint = new IPEndPoint(IPAddress.Any, 9867);
+        private IPEndPoint _anyEndPoint = new IPEndPoint(IPAddress.Broadcast, 9867);
 
         public void Initialize()
         {
