@@ -12,6 +12,7 @@ namespace NetworkTestUI
     public partial class NetworkTestUI : Form
     {
         private Dictionary<string, Label> mousePositionLabels = new Dictionary<string, Label>();
+        private TextBox clientAddress;
 
         public NetworkTestUI()
         {
@@ -32,7 +33,8 @@ namespace NetworkTestUI
 
             clientPanel.Height = clientPanel.Parent.Height - 4;
 
-            TextBox clientAddress = new TextBox();
+            // This needs to be generalized but a text change event is ... difficult ...
+            clientAddress = new TextBox();
 
             clientAddress.Text = address;
 
@@ -67,15 +69,16 @@ namespace NetworkTestUI
         {
             lblLocalMouseMove.Text = "Local mouse: " + x + ", " + y;
 
-            MousePosition mp = new MousePosition();
+            MousePosition mousePosition = new MousePosition();
 
-            mp.X = x;
+            mousePosition.X = x;
 
-            mp.Y = y;
+            mousePosition.Y = y;
 
-            mp.RecipientId = IrisCore.ConfigurationService.InstanceId;
+            //mp.RecipientId = IrisCore.ConfigurationService.InstanceId;
+            mousePosition.RecipientId = clientAddress.Text;
 
-            var t = IrisCore.MouseService.SetMousePosition(mp);
+            var t = IrisCore.MouseService.SetMousePosition(mousePosition);
         }
 
         private void MouseService_MousePositionChanged(MousePosition position)
