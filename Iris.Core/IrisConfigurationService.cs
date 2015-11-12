@@ -9,11 +9,16 @@ namespace Iris.Core
 {
     internal class IrisConfigurationService : IConfigurationService
     {
+        public IrisConfigurationService()
+        {
+            InstanceId = System.Environment.MachineName;
+        }
+
         public string GetConfigurationValue(string key)
         {
             throw new NotImplementedException();
         }
 
-        public string InstanceId => "ID";
+        public string InstanceId { get; private set; }
     }
 }

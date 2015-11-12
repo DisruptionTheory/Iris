@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -28,7 +27,7 @@ namespace Iris.Network
 
         public async Task<bool> Send(byte[] data)
         {
-            //await _client.SendAsync(data, data.Length, _broadcastEndPoint);
+            await _client.SendAsync(data, data.Length, _broadcastEndPoint);
 
             return true;
         }

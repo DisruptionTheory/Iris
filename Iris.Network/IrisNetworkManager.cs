@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Iris.Infrastructure.Contracts;
 using Iris.Infrastructure.Contracts.Services;
 using Iris.Infrastructure.Models;
+using Newtonsoft.Json;
 
 namespace Iris.Network
 {
@@ -27,15 +30,19 @@ namespace Iris.Network
 
         public async Task<bool> SendMousePositionUpdate(MousePosition position)
         {
-            byte[] data = new byte[20];
+            position.SenderId = ConfigurationService.InstanceId;
 
-            Array.Copy(BitConverter.GetBytes((int)MessageType.MousePositionUpdate), 0, data, 0, 4);
+            string json = JsonConvert.SerializeObject(position);
 
-            Array.Copy(BitConverter.GetBytes(position.X), 0, data, 4, 8);
+            byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
 
-            Array.Copy(BitConverter.GetBytes(position.Y), 0, data, 12, 8);
+            List<byte> data = new List<byte>();
 
-            return await Endpoint.Send(data);
+            data.AddRange(BitConverter.GetBytes((int)MessageType.MousePositionUpdate));
+
+            data.AddRange(jsonBytes);
+
+            return await Endpoint.Send(data.ToArray());
         }
 
         public event MousePositionUpdateEventHandler MousePositionUpdate;
@@ -54,13 +61,14 @@ namespace Iris.Network
 
         private void ProcessMousePositionUpdateMessage(byte[] message)
         {
-            MousePosition position = new MousePosition();
+            byte[] jsonData = message.Skip(4).ToArray();
 
-            position.X = BitConverter.ToInt64(message, 4);
+            MousePosition position = JsonConvert.DeserializeObject<MousePosition>(Encoding.UTF8.GetString(jsonData));
 
-            position.Y = BitConverter.ToInt64(message, 12);
-
-            MousePositionUpdate?.Invoke(position);
+            if (position.RecipientId == ConfigurationService.InstanceId)
+            {
+                MousePositionUpdate?.Invoke(position);
+            }
         }
     }
 }

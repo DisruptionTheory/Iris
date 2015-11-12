@@ -32,5 +32,7 @@ namespace Iris.Core
         internal static INetworkManager NetworkManager => Container.Resolve<INetworkManager>();
 
         public static IMouseService MouseService => Container.Resolve<IMouseService>();
+
+        public static IConfigurationService ConfigurationService => Container.Resolve<IConfigurationService>();
     }
 }

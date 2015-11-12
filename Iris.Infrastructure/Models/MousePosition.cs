@@ -1,6 +1,6 @@
 ﻿namespace Iris.Infrastructure.Models
 {
-    public class MousePosition
+    public class MousePosition : BaseModel
     {
         public long X { get; set; }
 

@@ -45,6 +45,7 @@
     <Compile Include="Contracts\Services\INetworkManager.cs" />
     <Compile Include="Contracts\Services\IKeyboardService.cs" />
     <Compile Include="Contracts\Services\IMouseService.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\MousePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

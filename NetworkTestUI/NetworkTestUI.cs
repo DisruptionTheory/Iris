@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Iris.Core;
 using Iris.Environment.Win32;
@@ -41,7 +42,8 @@ namespace NetworkTestUI
             {
                 Text = "Hi!",
                 Parent = clientPanel,
-                Location = new Point(4, 20)
+                Location = new Point(4, 20),
+                Width = 200
             };
 
             mousePositionLabels[address] = mousePositionLabel;
@@ -53,7 +55,7 @@ namespace NetworkTestUI
 
             MouseHook.MouseButtonClicked += MouseHookOnMouseButtonClicked;
 
-            Iris.Core.IrisCore.MouseService.MousePositionChanged += MouseService_MousePositionChanged;
+            IrisCore.MouseService.MousePositionChanged += MouseService_MousePositionChanged;
         }
 
         private void MouseHookOnMouseButtonClicked(short key)
@@ -71,12 +73,17 @@ namespace NetworkTestUI
 
             mp.Y = y;
 
+            mp.RecipientId = IrisCore.ConfigurationService.InstanceId;
+
             var t = IrisCore.MouseService.SetMousePosition(mp);
         }
 
         private void MouseService_MousePositionChanged(MousePosition position)
         {
-            // lblLocalMouseMove.Text = "Mouse pos: " + position.X + ", " + position.Y;
+            this.Invoke(new MethodInvoker(delegate
+            {
+                mousePositionLabels[mousePositionLabels.Keys.First()].Text = "Mouse pos: " + position.X + ", " + position.Y;
+            }));
         }
     }
 }
