@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Iris.Infrastructure.Contracts;
 using Iris.Infrastructure.Contracts.Services;
 using Iris.Infrastructure.Models;
+using Lidgren.Network;
 using Newtonsoft.Json;
 
 namespace Iris.Network
 {
     public class IrisNetworkManager : INetworkManager
     {
-        private readonly UdpEndpoint Endpoint = new UdpEndpoint();
-
         private readonly IConfigurationService ConfigurationService;
+
+        private NetPeer peer;
+
+        private Thread serverThread;
+
+        private List<NetIncomingMessage> messages = new List<NetIncomingMessage>();
 
         public IrisNetworkManager(IConfigurationService configurationService)
         {
@@ -23,51 +29,102 @@ namespace Iris.Network
 
         public void Initialize()
         {
-            Endpoint.DataReceived += EndpointOnDataReceived;
+            NetPeerConfiguration config = new NetPeerConfiguration(ConfigurationService.ApplicationIdentifier);
 
-            Endpoint.Initialize();
+            config.Port = ConfigurationService.Port;
+
+            peer = new NetPeer(config);
+
+            peer.Start();
+
+            serverThread = new Thread(Listen);
+
+            serverThread.Start();
+
+            peer.DiscoverLocalPeers(ConfigurationService.Port);
         }
 
         public async Task<bool> SendMousePositionUpdate(MousePosition position)
         {
-            position.SenderId = ConfigurationService.InstanceId;
+            var message = peer.CreateMessage();
 
-            string json = JsonConvert.SerializeObject(position);
+            message.WriteAllProperties(position);
 
-            byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
+            peer.SendMessage(message, peer.Connections, NetDeliveryMethod.ReliableUnordered, (int) MessageType.MousePositionUpdate);
 
-            List<byte> data = new List<byte>();
-
-            data.AddRange(BitConverter.GetBytes((int)MessageType.MousePositionUpdate));
-
-            data.AddRange(jsonBytes);
-
-            return await Endpoint.Send(data.ToArray());
+            return true;
         }
 
         public event MousePositionUpdateEventHandler MousePositionUpdate;
 
-        private void EndpointOnDataReceived(byte[] data)
+        private void Listen()
         {
-            MessageType messageType = (MessageType)BitConverter.ToInt32(data, 0);
-
-            switch (messageType)
+            while (true)
             {
-                case MessageType.MousePositionUpdate:
-                    ProcessMousePositionUpdateMessage(data);
+                peer.MessageReceivedEvent.WaitOne();
+
+                peer.MessageReceivedEvent.Reset();
+
+                peer.ReadMessages(messages);
+
+                ProcessMessages();
+            }
+        }
+
+        private void ProcessMessages()
+        {
+            foreach (var message in messages)
+            {
+                switch (message.MessageType)
+                {
+                    case NetIncomingMessageType.DiscoveryRequest:
+                        ProcessDiscoveryRequest(message);
+                        break;
+                    case NetIncomingMessageType.DiscoveryResponse:
+                        ProcessDiscoveryResponse(message);
+                        break;
+                    case NetIncomingMessageType.Data:
+                        ProcessTransaction(message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            messages.Clear();
+        }
+
+        private void ProcessTransaction(NetIncomingMessage message)
+        {
+            switch (message.SequenceChannel)
+            {
+                case (int)MessageType.MousePositionUpdate:
+                    MousePosition position = new MousePosition();
+                    message.ReadAllProperties(position);
+                    MousePositionUpdate?.Invoke(position);
+                    break;
+                default:
                     break;
             }
         }
 
-        private void ProcessMousePositionUpdateMessage(byte[] message)
+        private void ProcessDiscoveryRequest(NetIncomingMessage message)
         {
-            byte[] jsonData = message.Skip(4).ToArray();
-
-            MousePosition position = JsonConvert.DeserializeObject<MousePosition>(Encoding.UTF8.GetString(jsonData));
-
-            if (position.RecipientId == ConfigurationService.InstanceId)
+            if (peer.Connections.All(x => x.RemoteEndPoint.Address.ToString() != message.SenderEndPoint.Address.ToString()))
             {
-                MousePositionUpdate?.Invoke(position);
+                NetConnection connection = peer.Connect(message.SenderEndPoint);
+
+                NetOutgoingMessage response = peer.CreateMessage();
+
+                peer.SendDiscoveryResponse(response, connection.RemoteEndPoint);
+            }
+        }
+
+        private void ProcessDiscoveryResponse(NetIncomingMessage message)
+        {
+            if (peer.Connections.All(x => x.RemoteEndPoint.Address.ToString() != message.SenderEndPoint.Address.ToString()))
+            {
+                NetConnection connection = peer.Connect(message.SenderEndPoint);
             }
         }
     }

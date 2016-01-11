@@ -55,7 +55,7 @@ namespace NetworkTestUI
         {
             //MouseHook.MousePositionChanged += MouseHookOnMousePositionChanged;
 
-            MouseHook.MouseButtonClicked += MouseHookOnMouseButtonClicked;
+            //MouseHook.MouseButtonClicked += MouseHookOnMouseButtonClicked;
 
             IrisCore.MouseService.MousePositionChanged += MouseService_MousePositionChanged;
         }

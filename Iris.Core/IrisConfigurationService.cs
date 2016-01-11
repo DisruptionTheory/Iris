@@ -12,6 +12,10 @@ namespace Iris.Core
         public IrisConfigurationService()
         {
             InstanceId = System.Environment.MachineName;
+
+            Port = 12345;
+
+            ApplicationIdentifier = "Iris";
         }
 
         public string GetConfigurationValue(string key)
@@ -20,5 +24,9 @@ namespace Iris.Core
         }
 
         public string InstanceId { get; private set; }
+
+        public int Port { get; private set; }
+        
+        public string ApplicationIdentifier { get; private set; }
     }
 }
