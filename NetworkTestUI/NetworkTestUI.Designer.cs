@@ -31,9 +31,9 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblLocalMouseClick = new System.Windows.Forms.Label();
+            this.btnSendStuff = new System.Windows.Forms.Button();
             this.lblLocalEvents = new System.Windows.Forms.Label();
             this.lblLocalMouseMove = new System.Windows.Forms.Label();
-            this.btnSendStuff = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -67,6 +67,16 @@
             this.lblLocalMouseClick.TabIndex = 3;
             this.lblLocalMouseClick.Text = "local mouse click";
             // 
+            // btnSendStuff
+            // 
+            this.btnSendStuff.Location = new System.Drawing.Point(53, 223);
+            this.btnSendStuff.Name = "btnSendStuff";
+            this.btnSendStuff.Size = new System.Drawing.Size(99, 23);
+            this.btnSendStuff.TabIndex = 1;
+            this.btnSendStuff.Text = "Send a packet";
+            this.btnSendStuff.UseVisualStyleBackColor = true;
+            this.btnSendStuff.Click += new System.EventHandler(this.btnSendStuff_Click);
+            // 
             // lblLocalEvents
             // 
             this.lblLocalEvents.AutoSize = true;
@@ -85,16 +95,6 @@
             this.lblLocalMouseMove.TabIndex = 2;
             this.lblLocalMouseMove.Text = "local mouse move";
             // 
-            // btnSendStuff
-            // 
-            this.btnSendStuff.Location = new System.Drawing.Point(53, 223);
-            this.btnSendStuff.Name = "btnSendStuff";
-            this.btnSendStuff.Size = new System.Drawing.Size(99, 23);
-            this.btnSendStuff.TabIndex = 1;
-            this.btnSendStuff.Text = "Send a packet";
-            this.btnSendStuff.UseVisualStyleBackColor = true;
-            this.btnSendStuff.Click += new System.EventHandler(this.btnSendStuff_Click);
-            // 
             // NetworkTestUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -103,6 +103,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "NetworkTestUI";
             this.Text = "Iris";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NetworkTestUI_FormClosing);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +31,8 @@ namespace Iris.Network
         public void Initialize()
         {
             NetPeerConfiguration config = new NetPeerConfiguration(ConfigurationService.ApplicationIdentifier);
+
+            config.AcceptIncomingConnections = true;
 
             config.Port = ConfigurationService.Port;
 
@@ -87,6 +90,7 @@ namespace Iris.Network
                         ProcessTransaction(message);
                         break;
                     default:
+                        string msg = Encoding.ASCII.GetString(message.Data);
                         break;
                 }
             }
@@ -110,22 +114,14 @@ namespace Iris.Network
 
         private void ProcessDiscoveryRequest(NetIncomingMessage message)
         {
-            if (peer.Connections.All(x => x.RemoteEndPoint.Address.ToString() != message.SenderEndPoint.Address.ToString()))
-            {
-                NetConnection connection = peer.Connect(message.SenderEndPoint);
+            NetOutgoingMessage response = peer.CreateMessage();
 
-                NetOutgoingMessage response = peer.CreateMessage();
-
-                peer.SendDiscoveryResponse(response, connection.RemoteEndPoint);
-            }
+            peer.SendDiscoveryResponse(response, message.SenderEndPoint);
         }
 
         private void ProcessDiscoveryResponse(NetIncomingMessage message)
         {
-            if (peer.Connections.All(x => x.RemoteEndPoint.Address.ToString() != message.SenderEndPoint.Address.ToString()))
-            {
-                NetConnection connection = peer.Connect(message.SenderEndPoint);
-            }
+            NetConnection connection = peer.Connect(message.SenderEndPoint);
         }
     }
 }

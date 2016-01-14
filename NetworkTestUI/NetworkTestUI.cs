@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Iris.Core;
-using Iris.Environment.Win32;
 using Iris.Infrastructure.Models;
 
 namespace NetworkTestUI
@@ -12,7 +11,7 @@ namespace NetworkTestUI
     public partial class NetworkTestUI : Form
     {
         private Dictionary<string, Label> mousePositionLabels = new Dictionary<string, Label>();
-        private TextBox clientAddress;
+        private TextBox _clientAddress;
 
         public NetworkTestUI()
         {
@@ -34,13 +33,13 @@ namespace NetworkTestUI
             clientPanel.Height = clientPanel.Parent.Height - 4;
 
             // This needs to be generalized but a text change event is ... difficult ...
-            clientAddress = new TextBox();
+            _clientAddress = new TextBox();
 
-            clientAddress.Text = address;
+            _clientAddress.Text = address;
 
-            clientAddress.Parent = clientPanel;
+            _clientAddress.Parent = clientPanel;
 
-            Label mousePositionLabel = new Label
+            var mousePositionLabel = new Label
             {
                 Text = "Hi!",
                 Parent = clientPanel,
@@ -76,7 +75,7 @@ namespace NetworkTestUI
             mousePosition.Y = y;
 
             //mp.RecipientId = IrisCore.ConfigurationService.InstanceId;
-            mousePosition.RecipientId = clientAddress.Text;
+            mousePosition.RecipientId = _clientAddress.Text;
 
             var t = IrisCore.MouseService.SetMousePosition(mousePosition);
         }
@@ -92,6 +91,11 @@ namespace NetworkTestUI
         private void btnSendStuff_Click(object sender, EventArgs e)
         {
             MouseHookOnMousePositionChanged(5, 10);
+        }
+
+        private void NetworkTestUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
