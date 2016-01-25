@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Iris.Core;
+using Iris.Environment.Win32;
 using Iris.Infrastructure.Models;
 
 namespace NetworkTestUI
@@ -52,7 +53,7 @@ namespace NetworkTestUI
 
         private void SetUpMouseHooks()
         {
-            //MouseHook.MousePositionChanged += MouseHookOnMousePositionChanged;
+            MouseHook.MousePositionChanged += MouseHookOnMousePositionChanged;
 
             //MouseHook.MouseButtonClicked += MouseHookOnMouseButtonClicked;
 
@@ -74,8 +75,8 @@ namespace NetworkTestUI
 
             mousePosition.Y = y;
 
-            //mp.RecipientId = IrisCore.ConfigurationService.InstanceId;
-            mousePosition.RecipientId = _clientAddress.Text;
+            mousePosition.RecipientId = IrisCore.ConfigurationService.InstanceId;
+            //mousePosition.RecipientId = _clientAddress.Text;
 
             var t = IrisCore.MouseService.SetMousePosition(mousePosition);
         }

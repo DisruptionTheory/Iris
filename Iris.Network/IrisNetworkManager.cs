@@ -44,18 +44,56 @@ namespace Iris.Network
         {
             byte[] message = client.EndReceive(result, ref anyEndpoint);
 
+            ProcessMessage(message);
+
             client.BeginReceive(ReceiveCallback, null);
         }
 
         public async Task<bool> SendMousePositionUpdate(MousePosition position)
         {
-            string message = JsonConvert.SerializeObject(position);
+            return await SendMessage(position, MessageType.MousePositionUpdate);
+        }
 
-            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+        private async Task<bool> SendMessage(object msgObj, MessageType type)
+        {
+            List<byte> messageData = new List<byte>();
 
-            int result = await client.SendAsync(messageBytes, messageBytes.Length, multicastEndpoint);
+            messageData.AddRange(BitConverter.GetBytes((int)type));
+
+            string msg = JsonConvert.SerializeObject(msgObj);
+
+            messageData.AddRange(Encoding.UTF8.GetBytes(msg));
+
+            int result = await client.SendAsync(messageData.ToArray(), messageData.Count, multicastEndpoint);
 
             return true;
+        }
+
+        private async Task ProcessMessage(byte[] message)
+        {
+            int msgType = BitConverter.ToInt32(message.ToArray(), 0);
+
+            string msg = Encoding.UTF8.GetString(message.Skip(4).ToArray());
+
+            switch ((MessageType)msgType)
+            {
+                case MessageType.MousePositionUpdate:
+                    ProcessMousePositionUpdate(JsonConvert.DeserializeObject<MousePosition>(msg));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ProcessMousePositionUpdate(MousePosition mousePosition)
+        {
+            if (ConfigurationService.InstanceId == mousePosition.RecipientId)
+            {
+                if (MousePositionUpdate != null)
+                {
+                    MousePositionUpdate(mousePosition);
+                }
+            }
         }
     }
 }
