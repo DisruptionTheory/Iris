@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Configuration;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.Infrastructure.Contracts;
 using Iris.Infrastructure.Contracts.Services;
 using Iris.Infrastructure.Models;
-using Lidgren.Network;
 using Newtonsoft.Json;
 
 namespace Iris.Network
@@ -17,111 +18,44 @@ namespace Iris.Network
     {
         private readonly IConfigurationService ConfigurationService;
 
-        private NetPeer peer;
+        private UdpClient client;
 
-        private Thread serverThread;
+        private IPEndPoint anyEndpoint = new IPEndPoint(IPAddress.Any, 0);
 
-        private List<NetIncomingMessage> messages = new List<NetIncomingMessage>();
+        private IPEndPoint multicastEndpoint = new IPEndPoint(IPAddress.Parse("224.100.0.77"), 2783);
 
         public IrisNetworkManager(IConfigurationService configurationService)
         {
             ConfigurationService = configurationService;
         }
 
+        public event MousePositionUpdateEventHandler MousePositionUpdate;
+
         public void Initialize()
         {
-            NetPeerConfiguration config = new NetPeerConfiguration(ConfigurationService.ApplicationIdentifier);
+            client = new UdpClient(multicastEndpoint.Port);
 
-            config.AcceptIncomingConnections = true;
+            client.JoinMulticastGroup(multicastEndpoint.Address, 100);
 
-            config.Port = ConfigurationService.Port;
+            client.BeginReceive(ReceiveCallback, null);
+        }
 
-            peer = new NetPeer(config);
+        private void ReceiveCallback(IAsyncResult result)
+        {
+            byte[] message = client.EndReceive(result, ref anyEndpoint);
 
-            peer.Start();
-
-            serverThread = new Thread(Listen);
-
-            serverThread.Start();
-
-            peer.DiscoverLocalPeers(ConfigurationService.Port);
+            client.BeginReceive(ReceiveCallback, null);
         }
 
         public async Task<bool> SendMousePositionUpdate(MousePosition position)
         {
-            var message = peer.CreateMessage();
+            string message = JsonConvert.SerializeObject(position);
 
-            message.WriteAllProperties(position);
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
 
-            peer.SendMessage(message, peer.Connections, NetDeliveryMethod.ReliableUnordered, (int) MessageType.MousePositionUpdate);
+            int result = await client.SendAsync(messageBytes, messageBytes.Length, multicastEndpoint);
 
             return true;
-        }
-
-        public event MousePositionUpdateEventHandler MousePositionUpdate;
-
-        private void Listen()
-        {
-            while (true)
-            {
-                peer.MessageReceivedEvent.WaitOne();
-
-                peer.MessageReceivedEvent.Reset();
-
-                peer.ReadMessages(messages);
-
-                ProcessMessages();
-            }
-        }
-
-        private void ProcessMessages()
-        {
-            foreach (var message in messages)
-            {
-                switch (message.MessageType)
-                {
-                    case NetIncomingMessageType.DiscoveryRequest:
-                        ProcessDiscoveryRequest(message);
-                        break;
-                    case NetIncomingMessageType.DiscoveryResponse:
-                        ProcessDiscoveryResponse(message);
-                        break;
-                    case NetIncomingMessageType.Data:
-                        ProcessTransaction(message);
-                        break;
-                    default:
-                        string msg = Encoding.ASCII.GetString(message.Data);
-                        break;
-                }
-            }
-
-            messages.Clear();
-        }
-
-        private void ProcessTransaction(NetIncomingMessage message)
-        {
-            switch (message.SequenceChannel)
-            {
-                case (int)MessageType.MousePositionUpdate:
-                    MousePosition position = new MousePosition();
-                    message.ReadAllProperties(position);
-                    MousePositionUpdate?.Invoke(position);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void ProcessDiscoveryRequest(NetIncomingMessage message)
-        {
-            NetOutgoingMessage response = peer.CreateMessage();
-
-            peer.SendDiscoveryResponse(response, message.SenderEndPoint);
-        }
-
-        private void ProcessDiscoveryResponse(NetIncomingMessage message)
-        {
-            NetConnection connection = peer.Connect(message.SenderEndPoint);
         }
     }
 }
