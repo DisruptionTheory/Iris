@@ -75,8 +75,7 @@ namespace NetworkTestUI
 
             mousePosition.Y = y;
 
-            mousePosition.RecipientId = IrisCore.ConfigurationService.InstanceId;
-            //mousePosition.RecipientId = _clientAddress.Text;
+            mousePosition.RecipientId = _clientAddress.Text;
 
             var t = IrisCore.MouseService.SetMousePosition(mousePosition);
         }
