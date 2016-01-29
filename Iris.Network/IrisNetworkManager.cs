@@ -20,7 +20,7 @@ namespace Iris.Network
 
         private UdpClient client;
 
-        private IPEndPoint anyEndpoint = new IPEndPoint(IPAddress.Any, 0);
+        private IPEndPoint anyEndpoint = new IPEndPoint(IPAddress.Any, 2783);
 
         private IPEndPoint multicastEndpoint = new IPEndPoint(IPAddress.Parse("224.100.0.77"), 2783);
 
