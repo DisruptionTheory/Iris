@@ -35,6 +35,10 @@ namespace Iris.Network
         {
             client = new UdpClient(multicastEndpoint.Port);
 
+            client.Client.Bind(anyEndpoint);
+
+            client.DontFragment = true;
+
             client.JoinMulticastGroup(multicastEndpoint.Address, 100);
 
             client.BeginReceive(ReceiveCallback, null);
@@ -42,7 +46,7 @@ namespace Iris.Network
 
         private void ReceiveCallback(IAsyncResult result)
         {
-            byte[] message = client.EndReceive(result, ref anyEndpoint);
+            byte[] message = client.EndReceive(result, ref multicastEndpoint);
 
             ProcessMessage(message);
 
