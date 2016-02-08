@@ -18,11 +18,13 @@ namespace Iris.Network
     {
         private readonly IConfigurationService ConfigurationService;
 
-        private UdpClient client;
+        private UdpClient listener;
 
-        private IPEndPoint anyEndpoint = new IPEndPoint(IPAddress.Any, 2783);
+        private UdpClient sender;
 
-        private IPEndPoint multicastEndpoint = new IPEndPoint(IPAddress.Parse("224.100.0.77"), 2783);
+        private IPEndPoint anyEndPoint = new IPEndPoint(IPAddress.Any, 2783);
+
+        private IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("224.100.1.1"), 2783);
 
         public IrisNetworkManager(IConfigurationService configurationService)
         {
@@ -33,24 +35,36 @@ namespace Iris.Network
 
         public void Initialize()
         {
-            client = new UdpClient(multicastEndpoint.Port);
+            sender = new UdpClient();
 
-            client.Client.Bind(anyEndpoint);
+            sender.DontFragment = true;
 
-            client.DontFragment = true;
+            sender.JoinMulticastGroup(remoteEndPoint.Address);
 
-            client.JoinMulticastGroup(multicastEndpoint.Address, 100);
+            listener = new UdpClient();
 
-            client.BeginReceive(ReceiveCallback, null);
+            listener.ExclusiveAddressUse = false;
+
+            listener.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+
+            listener.ExclusiveAddressUse = false;
+
+            listener.Client.Bind(anyEndPoint);
+
+            listener.DontFragment = true;
+
+            listener.JoinMulticastGroup(remoteEndPoint.Address);
+
+            listener.BeginReceive(ReceiveCallback, null);
         }
 
         private void ReceiveCallback(IAsyncResult result)
         {
-            byte[] message = client.EndReceive(result, ref multicastEndpoint);
+            byte[] message = listener.EndReceive(result, ref anyEndPoint);
 
             ProcessMessage(message);
 
-            client.BeginReceive(ReceiveCallback, null);
+            listener.BeginReceive(ReceiveCallback, null);
         }
 
         public async Task<bool> SendMousePositionUpdate(MousePosition position)
@@ -68,7 +82,7 @@ namespace Iris.Network
 
             messageData.AddRange(Encoding.UTF8.GetBytes(msg));
 
-            int result = await client.SendAsync(messageData.ToArray(), messageData.Count, multicastEndpoint);
+            int result = await sender.SendAsync(messageData.ToArray(), messageData.Count, remoteEndPoint);
 
             return true;
         }
