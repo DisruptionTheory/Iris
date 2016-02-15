@@ -22,9 +22,9 @@ namespace Iris.Network
 
         private UdpClient sender;
 
-        private IPEndPoint anyEndPoint = new IPEndPoint(IPAddress.Any, 1805);
+        private IPEndPoint anyEndPoint = new IPEndPoint(IPAddress.Any, 1900);
 
-        private IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("239.255.190.7"), 1805);
+        private IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 1900);
 
         public IrisNetworkManager(IConfigurationService configurationService)
         {
