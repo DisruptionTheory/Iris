@@ -26,6 +26,10 @@ namespace Iris.Network
 
         private IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 1900);
 
+        private TcpListener tcpServer;
+
+        private List<TcpClient> tcpClients = new List<TcpClient>();
+
         public IrisNetworkManager(IConfigurationService configurationService)
         {
             ConfigurationService = configurationService;
@@ -35,6 +39,10 @@ namespace Iris.Network
 
         public void Initialize()
         {
+            tcpServer = new TcpListener(IPAddress.Any, 1901);
+
+            tcpServer.BeginAcceptTcpClient()
+
             sender = new UdpClient();
 
             sender.DontFragment = true;
